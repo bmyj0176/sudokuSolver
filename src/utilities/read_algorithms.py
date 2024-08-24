@@ -40,8 +40,43 @@ def find_duplicates(input_list):
     checked = set()
     duplicate = set()
     for item in input_list:
+        if isinstance(item, list): item = tuple(sorted(item))  # sort list and convert to tuple
         if item in checked:
             duplicate.add(item)
         else:
             checked.add(item)
-    return list(duplicate)
+    if duplicate:
+        if isinstance(next(iter(duplicate)), tuple): 
+            return [list(d) for d in duplicate]  # convert tuples back to lists
+        else: 
+            return list(duplicate)
+    
+def find_duplicates_w_count(input_list):
+    checked = {}
+    duplicates = []
+    duplicate_count = []
+    
+    for item in input_list:
+        # Sort lists and convert to tuples if necessary
+        if isinstance(item, list): 
+            item = tuple(sorted(item))
+        
+        # Track occurrences of each item
+        if item in checked:
+            checked[item] += 1
+        else:
+            checked[item] = 1
+    
+    # Identify duplicates and their counts
+    for item, count in checked.items():
+        if count > 1:
+            duplicates.append(item)
+            duplicate_count.append(count)
+    
+    # Convert tuples back to lists if necessary
+    if duplicates and isinstance(duplicates[0], tuple):
+        duplicates = [list(d) for d in duplicates]
+    
+    return duplicates, duplicate_count
+
+

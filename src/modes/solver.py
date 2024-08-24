@@ -1,5 +1,5 @@
 import note_manager
-import solve_algorithms.solveAlg_main as solve
+import solve_algorithms.solve_alg_main as solve
 import interface
 import utilities.calculate as calculate
 
@@ -24,16 +24,17 @@ def main(board, note_board, mode):
     
     solve.import_boards(board, note_board)
     while(0 in board):
-        solve.obvious_singles()
-        solve.obvious_pairs()
-        solve.obvious_triples()
+        solve.naked_singles()
+        solve.naked_pairs()
+        solve.naked_triples()
         solve.hidden_singles()
+        solve.hidden_pairs()
     mode = 'Completion'
     return mode
 
 def solution_detected(technique, number, index, board, note_board):
-    noteRemovalTechniques = ["Obvious Pairs", "Obvious Triples"]
-    # numberInsertionTechniques = ["Obvious Singles", "Hidden Singles"]
+    noteRemovalTechniques = ["Naked Pairs", "Naked Triples", "Hidden Pairs"]
+    # numberInsertionTechniques = ["Naked Singles", "Hidden Singles"]
     if technique in noteRemovalTechniques: 
         if not skipNotesMode and not quickSolveMode:
             print()

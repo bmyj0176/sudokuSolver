@@ -1,16 +1,7 @@
-def find_duplicates(input_list):
-    seen = set()
-    duplicates = set()
-    for item in input_list:
-        if item in seen:
-            duplicates.add(item)
-        else:
-            seen.add(item)
-    return list(duplicates)
+import utilities.read_algorithms as read
 
-def test(c1, c2):
-    thirdpair_template = list(set(c1+c2))
-    thirdpair_template.remove(find_duplicates(c1+c2)[0])
-    return thirdpair_template
-
-print(test([1,7],[7,8]))
+list = [3, 8, 2, 8]
+print(read.find_duplicates(list))
+'''
+print(read.find_duplicates_w_count([[1, 2], [1, 3], [1, 3], [1,2,3], [1,4], [1,2,3]]))
+print(read.find_duplicates_w_count([1,2,4,4,5,6,9,8,9,1,1]))'''

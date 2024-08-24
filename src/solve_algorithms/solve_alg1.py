@@ -14,13 +14,13 @@ def import_boards(imported_board, imported_note_board):
 # 3. Obvious Triples
 #    When there's three pairs that consists of two occurrences of each note [1, 2] [2, 3] [1, 3]
 
-def obvious_singles():
+def naked_singles():
     for index in range(81):
         if len(note_board[index]) == 1:
-            solve.solution_detected("Obvious Singles", note_board[index][0], index, board, note_board)
+            solve.solution_detected("Naked Singles", note_board[index][0], index, board, note_board)
     return
 
-def obvious_pairs():
+def naked_pairs():
     for array_type in range(3): # 0=row, 1=col, 2=subgrid
         for array in range(9): # for every array
             saved_cell, saved_index = [], -1
@@ -43,11 +43,11 @@ def obvious_pairs():
                             for filter_value in saved_cell:
                                 for n in range(9): # for every cell in a array
                                     if filter_value in notes_in_array[n] and set(notes_in_array[n]) != set(saved_cell):
-                                        solve.solution_detected("Obvious Pairs", filter_value, indexes_in_array[n], board, note_board)
+                                        solve.solution_detected("Naked Pairs", filter_value, indexes_in_array[n], board, note_board)
                             saved_cell, saved_index = [], -1
     return
 
-def obvious_triples():
+def naked_triples():
     for array_type in range(3): # 0=row, 1=col, 2=subgrid
         for array in range(9): # for every array
             saved_cell1, saved_index1 = [], -1
@@ -81,7 +81,7 @@ def obvious_triples():
                             for filter_value in list(set(saved_cell1+saved_cell2)):
                                 for n in range(9):
                                     if filter_value in notes_in_array[n] and indexes_in_array[n] not in [saved_index1, saved_index2, saved_index3]:
-                                        solve.solution_detected("Obvious Triples", filter_value, indexes_in_array[n], board, note_board)
+                                        solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
                             saved_cell1, saved_index1 = [], -1
                             saved_cell2, saved_index2 = [], -1
                             saved_index3 = -1
