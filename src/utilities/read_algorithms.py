@@ -35,3 +35,13 @@ def list_subgrid_indexes(subgrid):
         for c0 in range(3): # each column in subgrid 
             output_list.append(selected_index+c0+r0*9)
     return output_list
+
+def find_duplicates(input_list):
+    checked = set()
+    duplicate = set()
+    for item in input_list:
+        if item in checked:
+            duplicate.add(item)
+        else:
+            checked.add(item)
+    return list(duplicate)

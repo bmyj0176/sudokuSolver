@@ -1,7 +1,7 @@
-import noter
-import solve_algorithms as solve
+import note_manager
+import solve_algorithms.solveAlg_main as solve
 import interface
-import calculate
+import utilities.calculate as calculate
 
 def main(board, note_board, mode):
     global skipNotesMode
@@ -16,25 +16,30 @@ def main(board, note_board, mode):
         if inputValue == '1': skipNotesMode = not skipNotesMode
         if inputValue == '2': quickSolveMode = not quickSolveMode
 
-    fill_empty_cells_w_all_notes(board, note_board) # completely fill all non-empty cells with notes
+    for index in range(81): # completely fill all non-empty cells with notes
+        if not board[index]: # if 0
+            note_board[index] = list(range(1, 10)) 
     for index in range(81):
-        noter.cell_scan(board, note_board, index) # cleans up all cells' notes
+        note_manager.cell_scan(board, note_board, index) # cleans up all cells' notes
     
+    solve.import_boards(board, note_board)
     while(0 in board):
-        solve.obvious_singles(board, note_board)
-    
+        solve.obvious_singles()
+        solve.obvious_pairs()
+        solve.obvious_triples()
+        solve.hidden_singles()
     mode = 'Completion'
     return mode
 
 def solution_detected(technique, number, index, board, note_board):
-    noteRemovalTechniques = []
-    # numberInsertionTechniques = ["Obvious Singles"]
+    noteRemovalTechniques = ["Obvious Pairs", "Obvious Triples"]
+    # numberInsertionTechniques = ["Obvious Singles", "Hidden Singles"]
     if technique in noteRemovalTechniques: 
         if not skipNotesMode and not quickSolveMode:
             print()
             interface.print_note_board(note_board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"({technique}) Remove note {number} from this cell. ")
-        noter.remove_note(note_board, index, number)
+        note_manager.remove_note(note_board, index, number)
         if not skipNotesMode and not quickSolveMode:
             print()
             interface.print_note_board(note_board, calculate.index_to_row(index), calculate.index_to_col(index))
@@ -45,14 +50,9 @@ def solution_detected(technique, number, index, board, note_board):
             interface.print_board_hinted(board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"({technique}) Insert {number} into this cell. Then, remove notes accordingly. ")
         board[index] = number
-        noter.cell_scan(board, note_board, index)
+        note_manager.cell_scan(board, note_board, index)
         if not quickSolveMode:
             print()
             interface.print_board_hinted(board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"Your board should look like this afterwards. ")
-            
-        
-def fill_empty_cells_w_all_notes(board, note_board):
-    for index in range(81):
-        if not board[index]: # if 0
-            note_board[index] = list(range(1, 10))
+    return

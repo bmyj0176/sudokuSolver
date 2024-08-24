@@ -1,8 +1,8 @@
-import mode.insertion as insertion_mode
-import mode.verification as verification_mode
-import mode.solver as solver_mode
-import mode.completion as completion_mode
-import read_algorithms as readAlg
+import modes.insertion as insertion_mode
+import modes.verification as verification_mode
+import modes.solver as solver_mode
+import modes.completion as completion_mode
+import utilities.read_algorithms as readAlg
 
 mode = 'Insertion'
 

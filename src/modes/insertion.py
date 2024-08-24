@@ -1,5 +1,5 @@
 import interface
-import calculate
+import utilities.calculate as calculate
 
 insertionHistory = []
 

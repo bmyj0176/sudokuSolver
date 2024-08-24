@@ -1,4 +1,4 @@
-import read_algorithms as readAlg
+import utilities.read_algorithms as readAlg
 import interface
 import time
 

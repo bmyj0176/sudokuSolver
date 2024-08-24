@@ -1,5 +1,5 @@
-import calculate
-import read_algorithms as readAlg
+import utilities.calculate as calculate
+import utilities.read_algorithms as readAlg
 
 def insert_note(note_board, index, note): # adds a single note at index
     if not note in note_board[index]:
@@ -18,6 +18,7 @@ def clear_cell_notes(note_board, index):
 def cell_scan(board, note_board, index): # checks for cell value, then scans its row, col, subgrid to clean notes
     value_at_index = board[index]
     if value_at_index: # between 1-9 ONLY, deny 0
+        note_board[index] = [] # clears notes in occupied slot 
         for rowSlot in readAlg.list_row_indexes(calculate.index_to_row(index)): # for every slot in same row
             if value_at_index in note_board[rowSlot]:
                 note_board[rowSlot].remove(value_at_index) # clean note
