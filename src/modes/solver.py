@@ -2,6 +2,8 @@ import note_manager
 import solve_algorithms.solve_alg_main as solve
 import interface
 import utilities.calculate as calculate
+import time
+import threading
 
 def main(board, note_board, mode):
     global skipNotesMode
@@ -10,8 +12,8 @@ def main(board, note_board, mode):
     quickSolveMode = False
     inputValue = -1
     while inputValue in [-1, '1', '2']:
-        print(f"\n→ Enter 1 to toggle note-related solves. Currently {skipNotesMode}")
-        print(f"→ Enter 2 to toggle straight to the final solution. Currently {quickSolveMode}")
+        print(f"\n→ Enter 1 to toggle hide note-related solves. Currently {skipNotesMode}")
+        print(f"→ Enter 2 to toggle skip straight to the final solution. Currently {quickSolveMode}")
         inputValue = input("Continue? ")
         if inputValue == '1': skipNotesMode = not skipNotesMode
         if inputValue == '2': quickSolveMode = not quickSolveMode
@@ -23,16 +25,34 @@ def main(board, note_board, mode):
         note_manager.cell_scan(board, note_board, index) # cleans up all cells' notes
     
     solve.import_boards(board, note_board)
+    global check_fail
     while(0 in board):
-        solve.naked_singles()
-        solve.naked_pairs()
-        solve.naked_triples()
-        solve.hidden_singles()
-        solve.hidden_pairs()
+        check_fail = True
+        #solve.naked_singles()
+        solve.naked_multiples()
+        #solve.hidden_singles()
+        #solve.hidden_pairs()
+        if check_fail:
+            print()
+            interface.print_board(board)
+            print("sudokuSolver has failed to find any further solutions.")
+            while True:
+                print("1 - Display Board")
+                print("2 - Display Notes")
+                print("3 - Exit to Insertion Mode")
+                selectionInput = input("Input: ")
+                if selectionInput == "1": interface.print_board(board)
+                elif selectionInput == "2": interface.print_note_board(note_board, -1, -1)
+                elif selectionInput == "3": 
+                    mode = 'Insertion'
+                    return mode
+                else: print("Invalid Input!")
     mode = 'Completion'
     return mode
 
 def solution_detected(technique, number, index, board, note_board):
+    global check_fail
+    check_fail = False
     noteRemovalTechniques = ["Naked Pairs", "Naked Triples", "Hidden Pairs"]
     # numberInsertionTechniques = ["Naked Singles", "Hidden Singles"]
     if technique in noteRemovalTechniques: 

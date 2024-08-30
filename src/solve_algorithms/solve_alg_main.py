@@ -15,12 +15,8 @@ def naked_singles():
     solve1.naked_singles()
     return
 
-def naked_pairs():
-    solve1.naked_pairs()
-    return
-
-def naked_triples():
-    solve1.naked_triples()
+def naked_multiples():
+    solve1.naked_multiples()
     return
 
 def hidden_singles():

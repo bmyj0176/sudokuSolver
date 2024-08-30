@@ -63,6 +63,6 @@ def print_note_board(note_board, row, col):
                 elif (big_row*3+small_row) == row: print(end=' ←--')
             print() # newline
         if big_row < 2: print('----------------------------------+-----------------------------------+----------------------------------') # newline
-        else:
-            for spacing in range(col): print(end='            ')
+        elif col != -1:
+            for _ in range(col): print(end='            ')
             print('↑↑↑↑↑↑↑↑↑')

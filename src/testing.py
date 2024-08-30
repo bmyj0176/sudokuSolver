@@ -1,7 +1,16 @@
-import utilities.read_algorithms as read
+import time
 
-list = [3, 8, 2, 8]
-print(read.find_duplicates(list))
-'''
-print(read.find_duplicates_w_count([[1, 2], [1, 3], [1, 3], [1,2,3], [1,4], [1,2,3]]))
-print(read.find_duplicates_w_count([1,2,4,4,5,6,9,8,9,1,1]))'''
+start_time = time.time()
+
+# Run the check once or a small number of times
+for _ in range(100000000):  # Run a smaller test
+    # Insert your check logic here
+    pass
+
+end_time = time.time()
+
+# Estimate the time for 13,797 checks
+time_per_1000 = (end_time - start_time) / 1000
+estimated_time = time_per_1000 * 13797
+
+print(f"Estimated time for 13,797 checks: {estimated_time} seconds")

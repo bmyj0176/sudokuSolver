@@ -69,4 +69,4 @@ preset_board6 = [ # hidden pairs test
 
 note_board = [[] for _ in range(81)]
 
-mainCode.main(preset_board6, note_board)
+mainCode.main(preset_board5, note_board)
