@@ -66,7 +66,18 @@ preset_board6 = [ # hidden pairs test
     0, 2, 6, 0, 0, 9, 0, 0, 0,
     0, 0, 5, 8, 7, 0, 0, 0, 0,
 ]
+preset_board7 = [ # naked quads test
+    0, 0, 9, 0, 7, 0, 0, 0, 0,
+    0, 8, 0, 4, 0, 0, 0, 0, 0,
+    0, 0, 3, 0, 0, 0, 0, 2, 8,
+    1, 0, 0, 0, 0, 0, 6, 7, 0,
+    0, 2, 0, 0, 1, 3, 0, 4, 0,
+    0, 4, 0, 0, 0, 7, 8, 0, 0,
+    6, 0, 0, 0, 3, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 2, 8, 4,
+]
 
 note_board = [[] for _ in range(81)]
 
-mainCode.main(preset_board5, note_board)
+mainCode.main(preset_board7, note_board)

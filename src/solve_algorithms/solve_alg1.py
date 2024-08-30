@@ -36,14 +36,16 @@ def naked_pairs():
                 indexes_in_array = readAlg.list_subgrid_indexes(array)
 
             for combo in itertools.combinations(notes_in_array, 2): # check all combi of 3
-                combined_double = list(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
+                combined_double = sorted(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
                 if len(combined_double) == 2 and all(len(x) >= 2 for x in combo): # double detected
+                    solutionFound = False
                     for n in range(9): # each note in array
                         if not all(notes in combined_double for notes in notes_in_array[n]): 
                             for filter_value in combined_double:
                                 if filter_value in notes_in_array[n]:
                                     solve.solution_detected("Naked Pairs", filter_value, indexes_in_array[n], board, note_board)
-                                    return True
+                                    solutionFound = True
+                    return solutionFound
     return False
 
 def naked_triples():
@@ -62,15 +64,17 @@ def naked_triples():
             for combo in itertools.combinations(notes_in_array, 3): # check all combi of 3
                 combined_triple = sorted(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
                 if len(combined_triple) == 3 and all(len(x) >= 2 for x in combo): # triple detected
+                    solutionFound = False
                     for n in range(9): # each note in array
                         if not all(notes in combined_triple for notes in notes_in_array[n]): 
                             for filter_value in combined_triple:
                                 if filter_value in notes_in_array[n]:
                                     solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
-                                    return True
+                                    solutionFound = True
+                    return solutionFound
     return False
 
-def naked_quads(): # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP
+def naked_quads():
     for array_type in range(3): # 0=row, 1=col, 2=subgrid
         for array in range(9): # for every array
             if array_type == 0:
@@ -82,14 +86,16 @@ def naked_quads(): # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP #
             else: # array_type == 2
                 notes_in_array = readAlg.read_subgrid(note_board, array) 
                 indexes_in_array = readAlg.list_subgrid_indexes(array)
-                
-            for combo in itertools.combinations(notes_in_array, 4): # check all combi of 3
-                combined_triple = list(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
-                if len(combined_triple) == 4 and all(len(x) >= 2 for x in combo): # quad detected
+
+            for combo in itertools.combinations(notes_in_array, 4): # check all combi of 4
+                combined_quad = sorted(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
+                if len(combined_quad) == 4 and all(len(x) >= 2 for x in combo): # quad detected
+                    solutionFound = False
                     for n in range(9): # each note in array
-                        if not all(notes in combined_triple for notes in notes_in_array[n]): 
-                            for filter_value in combined_triple:
+                        if not all(notes in combined_quad for notes in notes_in_array[n]): 
+                            for filter_value in combined_quad:
                                 if filter_value in notes_in_array[n]:
-                                    solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
-                                    return True
+                                    solve.solution_detected("Naked Quads", filter_value, indexes_in_array[n], board, note_board)
+                                    solutionFound = True
+                    return solutionFound
     return False

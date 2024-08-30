@@ -31,7 +31,6 @@ def main(board, note_board, mode):
         if not solved: solved = solve.naked_singles()
         if not solved: solved = solve.naked_pairs()
         if not solved: solved = solve.naked_triples()
-        print(f"solved: {solved}")
         if not solved: solved = solve.naked_quads()
         if not solved: solved = solve.hidden_singles()
         if not solved: solved = solve.hidden_pairs()
@@ -40,12 +39,11 @@ def main(board, note_board, mode):
             interface.print_board(board)
             print("sudokuSolver has failed to find any further solutions.")
             while True:
-                #print("1 - Display Board")
-                #print("2 - Display Notes")
-                #print("3 - Exit to Insertion Mode")
+                print("1 - Display Board")
+                print("2 - Display Notes")
+                print("3 - Exit to Insertion Mode")
                 selectionInput = input("Input: ")
-                if selectionInput == "": continue
-                elif selectionInput == "1": interface.print_board(board)
+                if selectionInput == "1": interface.print_board(board)
                 elif selectionInput == "2": interface.print_note_board(note_board, -1, -1)
                 elif selectionInput == "3": 
                     mode = 'Insertion'
