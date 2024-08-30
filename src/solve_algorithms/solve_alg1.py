@@ -19,36 +19,10 @@ def naked_singles():
     for index in range(81):
         if len(note_board[index]) == 1:
             solve.solution_detected("Naked Singles", note_board[index][0], index, board, note_board)
-    return
+            return True
+    return False
 
 def naked_pairs():
-    for array_type in range(3): # 0=row, 1=col, 2=subgrid
-        for array in range(9): # for every array
-            saved_cell, saved_index = [], -1
-            if array_type == 0:
-                notes_in_array = readAlg.read_row(note_board, array) 
-                indexes_in_array = readAlg.list_row_indexes(array) 
-            elif array_type == 1:
-                notes_in_array = readAlg.read_col(note_board, array) 
-                indexes_in_array = readAlg.list_col_indexes(array) 
-            else: # array_type == 2
-                notes_in_array = readAlg.read_subgrid(note_board, array) 
-                indexes_in_array = readAlg.list_subgrid_indexes(array) 
-            for n in range(9): # for every cell in an array
-                if len(notes_in_array[n]) == 2:
-                    if not saved_cell:
-                        saved_cell = notes_in_array[n]
-                        saved_index = indexes_in_array[n]  
-                    else:
-                        if set(notes_in_array[n]) == set(saved_cell) and indexes_in_array[n] != saved_index: # pair found
-                            for filter_value in saved_cell:
-                                for n in range(9): # for every cell in a array
-                                    if filter_value in notes_in_array[n] and set(notes_in_array[n]) != set(saved_cell):
-                                        solve.solution_detected("Naked Pairs", filter_value, indexes_in_array[n], board, note_board)
-                            saved_cell, saved_index = [], -1
-    return
-
-def naked_multiples():
     for array_type in range(3): # 0=row, 1=col, 2=subgrid
         for array in range(9): # for every array
             if array_type == 0:
@@ -61,73 +35,61 @@ def naked_multiples():
                 notes_in_array = readAlg.read_subgrid(note_board, array) 
                 indexes_in_array = readAlg.list_subgrid_indexes(array)
 
-            # Naked Pairs
             for combo in itertools.combinations(notes_in_array, 2): # check all combi of 3
-                combined_double = list(set(combo[0] + combo[1]))  # Merge lists and remove duplicates
-                if len(combined_double) == 2 and len(combo[0]) == len(combo[1]) == 2: # double detected
+                combined_double = list(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
+                if len(combined_double) == 2 and all(len(x) >= 2 for x in combo): # double detected
                     for n in range(9): # each note in array
                         if not all(notes in combined_double for notes in notes_in_array[n]): 
                             for filter_value in combined_double:
                                 if filter_value in notes_in_array[n]:
-                                    print(f"filter_value: {filter_value} notes_in_array[n]: {notes_in_array[n]} combined_double: {combined_double}")
                                     solve.solution_detected("Naked Pairs", filter_value, indexes_in_array[n], board, note_board)
+                                    return True
+    return False
 
-            # Naked Triples
-            for combo in itertools.combinations(notes_in_array, 3): # check all combi of 3
-                combined_triple = list(set(combo[0] + combo[1] + combo[2]))  # Merge lists and remove duplicates
-                if len(combined_triple) == 3 and all(len(x) >= 2 for x in combo): # triple detected
-                    for n in range(9): # each note in array
-                        if not all(notes in combined_triple for notes in notes_in_array[n]): 
-                            for filter_value in combined_triple:
-                                if filter_value in notes_in_array[n]:
-                                    solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
-
-            # Naked Quads
-            for combo in itertools.combinations(notes_in_array, 4): # check all combi of 3
-                combined_triple = list(set(combo[0] + combo[1] + combo[2]))  # Merge lists and remove duplicates
-                if len(combined_triple) == 3 and all(len(x) >= 2 for x in combo): # triple detected
-                    for n in range(9): # each note in array
-                        if not all(notes in combined_triple for notes in notes_in_array[n]): 
-                            for filter_value in combined_triple:
-                                if filter_value in notes_in_array[n]:
-                                    solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
-
-def naked_triples2():
+def naked_triples():
     for array_type in range(3): # 0=row, 1=col, 2=subgrid
         for array in range(9): # for every array
-            saved_cell1, saved_index1 = [], -1
-            saved_cell2, saved_index2 = [], -1
-            saved_index3 = -1
             if array_type == 0:
                 notes_in_array = readAlg.read_row(note_board, array) 
                 indexes_in_array = readAlg.list_row_indexes(array) 
             elif array_type == 1:
-                notes_in_array = readAlg.read_col(note_board, array) 
+                notes_in_array = readAlg.read_col(note_board, array)
                 indexes_in_array = readAlg.list_col_indexes(array) 
             else: # array_type == 2
                 notes_in_array = readAlg.read_subgrid(note_board, array) 
-                indexes_in_array = readAlg.list_subgrid_indexes(array) 
-            for n in range(9): # for every cell in an array
-                if len(notes_in_array[n]) == 2:
-                    if not saved_cell1: # first pair
-                        saved_cell1 = notes_in_array[n]
-                        saved_index1 = indexes_in_array[n]
-                    elif saved_cell1 and not saved_cell2: # 2nd pair
-                        if indexes_in_array[n] != saved_index1 and set(notes_in_array[n]) != set(saved_cell1): # checks if different cell and not obvious pairs
-                            if saved_cell1[0] in notes_in_array[n] or saved_cell1[1] in notes_in_array[n]: # checks if it contains one of the notes in saved_cell1
-                                saved_cell2 = notes_in_array[n]
-                                saved_index2 = indexes_in_array[n]
-                    elif saved_cell2: # 3rd pair
-                        thirdpair_template = list(set(saved_cell1+saved_cell2))
-                        thirdpair_template.remove(readAlg.find_duplicates(saved_cell1+saved_cell2)[0])
-                        thirdpair_template.sort()
-                        if notes_in_array[n] == thirdpair_template: # 3rd pair is found
-                            saved_index3 = indexes_in_array[n]
-                            for filter_value in list(set(saved_cell1+saved_cell2)):
-                                for n in range(9):
-                                    if filter_value in notes_in_array[n] and indexes_in_array[n] not in [saved_index1, saved_index2, saved_index3]:
-                                        solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
-                            saved_cell1, saved_index1 = [], -1
-                            saved_cell2, saved_index2 = [], -1
-                            saved_index3 = -1
-    return
+                indexes_in_array = readAlg.list_subgrid_indexes(array)
+
+            for combo in itertools.combinations(notes_in_array, 3): # check all combi of 3
+                combined_triple = sorted(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
+                if len(combined_triple) == 3 and all(len(x) >= 2 for x in combo): # triple detected
+                    for n in range(9): # each note in array
+                        if not all(notes in combined_triple for notes in notes_in_array[n]): 
+                            for filter_value in combined_triple:
+                                if filter_value in notes_in_array[n]:
+                                    solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
+                                    return True
+    return False
+
+def naked_quads(): # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP # WIP
+    for array_type in range(3): # 0=row, 1=col, 2=subgrid
+        for array in range(9): # for every array
+            if array_type == 0:
+                notes_in_array = readAlg.read_row(note_board, array) 
+                indexes_in_array = readAlg.list_row_indexes(array) 
+            elif array_type == 1:
+                notes_in_array = readAlg.read_col(note_board, array)
+                indexes_in_array = readAlg.list_col_indexes(array) 
+            else: # array_type == 2
+                notes_in_array = readAlg.read_subgrid(note_board, array) 
+                indexes_in_array = readAlg.list_subgrid_indexes(array)
+                
+            for combo in itertools.combinations(notes_in_array, 4): # check all combi of 3
+                combined_triple = list(set(itertools.chain(*combo)))  # Merge lists and remove duplicates
+                if len(combined_triple) == 4 and all(len(x) >= 2 for x in combo): # quad detected
+                    for n in range(9): # each note in array
+                        if not all(notes in combined_triple for notes in notes_in_array[n]): 
+                            for filter_value in combined_triple:
+                                if filter_value in notes_in_array[n]:
+                                    solve.solution_detected("Naked Triples", filter_value, indexes_in_array[n], board, note_board)
+                                    return True
+    return False

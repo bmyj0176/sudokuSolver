@@ -12,37 +12,34 @@ def import_boards(board, note_board):
 
 # When there's only one note in a cell
 def naked_singles():
-    solve1.naked_singles()
-    return
+    return solve1.naked_singles()
 
-def naked_multiples():
-    solve1.naked_multiples()
-    return
+def naked_pairs():
+    return solve1.naked_pairs()
+
+def naked_triples():
+    return solve1.naked_triples()
+
+def naked_quads():
+    return solve1.naked_quads()
 
 def hidden_singles():
-    solve2.hidden_singles()
-    return
+    return solve2.hidden_singles()
 
 def hidden_pairs():
-    solve2.hidden_pairs()
-    return
+    return solve2.hidden_pairs()
 
 def hidden_triples():
-    solve2.hidden_triples()
-    return
+    return solve2.hidden_triples()
 
 def pointing_pairs_triples():
-    solve2.pointing_pairs_triples()
-    return
+    return solve2.pointing_pairs_triples()
 
 def x_wing():
-    solve3.x_wing()
-    return
+    return solve3.x_wing()
 
 def xy_wing():
-    solve3.xy_wing()
-    return
+    return solve3.xy_wing()
 
 def swordfish():
-    solve3.swordfish()
-    return
+    return solve3.swordfish()

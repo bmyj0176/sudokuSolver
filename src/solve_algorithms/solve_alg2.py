@@ -37,7 +37,8 @@ def hidden_singles():
                     for n in range(9): # find index of singular digit
                         if digit+1 in notes_in_array[n]: digit_index = indexes_in_array[n]
                     solve.solution_detected("Hidden Singles", digit+1, digit_index, board, note_board)
-    return
+                    return True
+    return False
 
 def hidden_pairs():
     for array_type in range(3): # 0=row, 1=col, 2=subgrid
@@ -70,14 +71,12 @@ def hidden_pairs():
                         for n in dupe_appearances_list[dupe_index]: # for every cell containing hidden pair
                             for note in list(notes_in_array[n]): # list() makes copy so modification wont cause note skipping so its systematic
                                 if note not in masked_digits:
-                                    solve.solution_detected("Hidden Pairs", note, indexes_in_array[n], board, note_board)
-                
-
-                    
-    return
+                                    solve.solution_detected("Hidden Pairs", note, indexes_in_array[n], board, note_board)         
+                                    return True  
+    return False
 
 def hidden_triples():
-    return
+    return False
 
 def pointing_pairs_triples():
-    return
+    return False

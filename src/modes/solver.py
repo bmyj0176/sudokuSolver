@@ -2,8 +2,7 @@ import note_manager
 import solve_algorithms.solve_alg_main as solve
 import interface
 import utilities.calculate as calculate
-import time
-import threading
+import sys
 
 def main(board, note_board, mode):
     global skipNotesMode
@@ -27,21 +26,26 @@ def main(board, note_board, mode):
     solve.import_boards(board, note_board)
     global check_fail
     while(0 in board):
+        solved = False
         check_fail = True
-        #solve.naked_singles()
-        solve.naked_multiples()
-        #solve.hidden_singles()
-        #solve.hidden_pairs()
+        if not solved: solved = solve.naked_singles()
+        if not solved: solved = solve.naked_pairs()
+        if not solved: solved = solve.naked_triples()
+        print(f"solved: {solved}")
+        if not solved: solved = solve.naked_quads()
+        if not solved: solved = solve.hidden_singles()
+        if not solved: solved = solve.hidden_pairs()
         if check_fail:
             print()
             interface.print_board(board)
             print("sudokuSolver has failed to find any further solutions.")
             while True:
-                print("1 - Display Board")
-                print("2 - Display Notes")
-                print("3 - Exit to Insertion Mode")
+                #print("1 - Display Board")
+                #print("2 - Display Notes")
+                #print("3 - Exit to Insertion Mode")
                 selectionInput = input("Input: ")
-                if selectionInput == "1": interface.print_board(board)
+                if selectionInput == "": continue
+                elif selectionInput == "1": interface.print_board(board)
                 elif selectionInput == "2": interface.print_note_board(note_board, -1, -1)
                 elif selectionInput == "3": 
                     mode = 'Insertion'
@@ -53,7 +57,7 @@ def main(board, note_board, mode):
 def solution_detected(technique, number, index, board, note_board):
     global check_fail
     check_fail = False
-    noteRemovalTechniques = ["Naked Pairs", "Naked Triples", "Hidden Pairs"]
+    noteRemovalTechniques = ["Naked Pairs", "Naked Triples", "Naked Quads", "Naked Quintuples", "Hidden Pairs"]
     # numberInsertionTechniques = ["Naked Singles", "Hidden Singles"]
     if technique in noteRemovalTechniques: 
         if not skipNotesMode and not quickSolveMode:
