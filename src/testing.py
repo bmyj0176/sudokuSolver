@@ -1,16 +1,10 @@
-import time
+import modes.preset as preset
 
-start_time = time.time()
+board = [0 for _ in range(81)]
+note_board = [[] for _ in range(81)]
 
-# Run the check once or a small number of times
-for _ in range(100000000):  # Run a smaller test
-    # Insert your check logic here
-    pass
+board[47] = 7
+board[13] = 1
 
-end_time = time.time()
-
-# Estimate the time for 13,797 checks
-time_per_1000 = (end_time - start_time) / 1000
-estimated_time = time_per_1000 * 13797
-
-print(f"Estimated time for 13,797 checks: {estimated_time} seconds")
+preset.write(["Sex", board, note_board], 1)
+preset.main(board, note_board)

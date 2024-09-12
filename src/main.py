@@ -1,25 +1,22 @@
-import modes.insertion as insertion_mode
-import modes.verification as verification_mode
+import modes.insertion
+import verification
 import modes.solver as solver_mode
 import modes.completion as completion_mode
 import utilities.read_algorithms as readAlg
 
-mode = 'Insertion'
+mode = 'Menu'
 
-def main(solved_board, note_board):
+def main(board = [0 for _ in range(81)], note_board = [[] for _ in range(81)]):
     global mode
     while True:
+        if mode == 'Menu':
+            mode = menu.main(board)
         if mode == 'Insertion': 
-            print("[sudokuSolver] Entered Insertion Mode")
-            mode = insertion_mode.main(solved_board, mode)
-        if mode == 'Verification':
-            print("[sudokuSolver] Entered Verification Mode")
-            mode = verification_mode.main(solved_board, mode)
+            mode = insertion_mode.main(board, mode)
         if mode == 'Solver':
-            print("[sudokuSolver] Entered Solver Mode")
-            mode = solver_mode.main(solved_board, note_board, mode)
+            mode = solver_mode.main(board, note_board, mode)
         if mode == 'Completion':
-            mode = completion_mode.main(solved_board, mode)
+            mode = completion_mode.main(board, mode)
 
 if __name__ == "__main__":
     solved_board = [0 for _ in range(81)]

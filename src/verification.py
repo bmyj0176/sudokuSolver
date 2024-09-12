@@ -2,7 +2,26 @@ import utilities.read_algorithms as readAlg
 import interface
 import time
 
-def main(board, mode):
+def main(board, write=True):
+    for array in range(9):
+        if readAlg.read_row(board, array) != list(set(readAlg.read_row(board, array))):
+            if write: 
+                interface.print_board_hinted(board, array, -1)
+                print(f"Duplicate detected in Row {array+1}")
+            return False
+        if readAlg.read_col(board, array) != list(set(readAlg.read_col(board, array))):
+            if write: 
+                interface.print_board_hinted(board, -1, array)
+                print(f"Duplicate detected in Column {array+1}")
+            return False
+        if readAlg.read_row(board, array) != list(set(readAlg.read_row(board, array))):
+            if write: 
+                interface.print_board(board)
+                print(f"Duplicate detected in Subgrid {array+1}")
+            return False
+    return True
+
+'''def main(board, mode):
     print()
     dupeRow = dupeCol = dupeSubgrid = 0
     for n in range(9):   
@@ -36,4 +55,4 @@ def duplicate_check(return_index, list):
             return return_index
         else:
             registered_items.append(list[n])
-    return 0
+    return 0'''
