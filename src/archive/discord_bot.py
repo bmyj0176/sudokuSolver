@@ -56,14 +56,8 @@ async def output(message):
     await send_msg(message)
 
 async def run_bot():
-<<<<<<< HEAD
-    token = os.getenv('DISCORD_BOT_TOKEN')
-    await bot.start(token)  # Replace with your actual bot token
-=======
-    with open('discord_bot_token.txt', 'r') as file:
-        token = file.read()  # Reads the entire file content
-    await bot.start(f'{token}')  # Replace with your actual bot token
->>>>>>> 3da2063 (commit)
+    # token = temporarily not available
+    await bot.start()  # Replace with your actual bot token
 
 async def close_bot():
     await bot.close()
