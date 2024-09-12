@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import asyncio
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -55,7 +56,8 @@ async def output(message):
     await send_msg(message)
 
 async def run_bot():
-    await bot.start('MTI4MDI5OTU5NjQ0MjI0MzEwMw.Gd8nEh.QzYUSBBO4uwUx1w5CaPhj8Ig3DdrgV-8gZQzQs')  # Replace with your actual bot token
+    token = os.getenv('DISCORD_BOT_TOKEN')
+    await bot.start(token)  # Replace with your actual bot token
 
 async def close_bot():
     await bot.close()
