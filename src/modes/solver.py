@@ -4,7 +4,7 @@ import interface
 import utilities.calculate as calculate
 import sys
 
-def main(board, note_board, mode):
+def main(board, note_board):
     global skipNotesMode
     global quickSolveMode
     skipNotesMode = False
@@ -40,11 +40,9 @@ def main(board, note_board, mode):
                 if selectionInput == "1": interface.print_board(board)
                 elif selectionInput == "2": interface.print_note_board(note_board, -1, -1)
                 elif selectionInput == "3": 
-                    mode = 'Insertion'
-                    return mode
+                    return 'Insertion'
                 else: print("Invalid Input!")
-    mode = 'Completion'
-    return mode
+    return 'Completion'
 
 def solution_detected(technique, number, index, board, note_board):
     global check_fail

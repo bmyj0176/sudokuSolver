@@ -59,7 +59,8 @@ def print_note_board(board, note_board, rowPointer=None, colPointer=None, displa
                                 print(note+1, end='')
                             else: print(end='_')
                     else:
-                        print(end=f' (  {board[(small_col+big_col*3)+(small_row+big_row*3)*9]}  ) ')
+                        if board[(small_col+big_col*3)+(small_row+big_row*3)*9] == 0: print(end='_________')
+                        else: print(end=f' (  {board[(small_col+big_col*3)+(small_row+big_row*3)*9]}  ) ')
                     if small_col < 2: print(end="   ")
                 if big_col < 2: print(end=' | ')
                 else:

@@ -32,7 +32,7 @@ def main(board, note_board):
                     if inputString == '' or inputString == ' ':
                         break
                     else:
-                        errorMessage, index, insertValue = process_rowcol_input(inputString)
+                        errorMessage, index, insertValue = process_rowcol_insert_input(inputString)
                         if not errorMessage:
                             board[index] = insertValue
                             note.cell_scan(board, note_board, index)
@@ -47,9 +47,12 @@ def main(board, note_board):
                             errorMessage = None
                         else:
                             print("\n(Example Input: 8..6...1.)")
-                        print("[Enter] to skip to next row")
+                        print("[/] Previous row [Enter] Next row")
                         inputString = input("Enter: ")
-                        if inputString == '' or inputString == ' ':
+                        if inputString == '/':
+                            row -= 1
+                            if row == -1: row = 0
+                        elif inputString == '' or inputString == ' ':
                             break
                         else:
                             errorMessage, rowToBeInserted = process_row_insertion_input(inputString)
@@ -58,7 +61,10 @@ def main(board, note_board):
                                     index = readAlg.list_row_indexes(row)[num]
                                     board[index] = rowToBeInserted[num]
                                     note.cell_scan(board, note_board, index)
+                                break
             elif selection == '4': # Save & Exit Editing
+                if all(not notes_in_cell for notes_in_cell in note_board): # completely empty note board
+                    note.initiate_note_board(board, note_board)
                 return 'Menu'
         else: # noteboardInsertion
             interface.print_note_board(board, note_board)
@@ -70,14 +76,60 @@ def main(board, note_board):
             if selection == '1': # Switch to Board Editing
                 noteboardInsertion = not noteboardInsertion
             elif selection == '2': # Edit & Toggle Note by Cell
-                while True:
-                    pass # STOPPED OFF HERE# STOPPED OFF HERE# STOPPED OFF HERE# STOPPED OFF HERE# STOPPED OFF HERE# STOPPED OFF HERE# STOPPED OFF HERE
+                errorMessage = None
+                while True:  
+                    print()
+                    interface.print_note_board(board, note_board, displayAllPointers=True)
+                    if errorMessage: 
+                        print(f"\n{errorMessage}")
+                        errorMessage = None
+                    else:
+                        print("\n(Select a cell. Example: 2F, 5D)")
+                    print("[Enter] to return to editing menu")
+                    inputString = input("Enter: ")
+                    if inputString == '' or inputString == ' ':
+                        break
+                    else:
+                        errorMessage, index = process_rowcol_input(inputString)
+                        if not errorMessage:
+                            print("Cell Selected.")
+                            responseMessage = None
+                            while True:
+                                interface.print_note_board(board, note_board, calculate.index_to_row(index), calculate.index_to_col(index))
+                                print("\n[Enter] to return to editing menu")
+                                if responseMessage:
+                                    print(f"{responseMessage}")
+                                    responseMessage = None
+                                else:
+                                    print("Insert value between 1-9 to toggle note.")
+                                inputValue = input("Enter: ")
+                                if inputValue == '' or inputValue == ' ':
+                                    break
+                                else:
+                                    try:
+                                        inputValue = int(inputValue)
+                                    except ValueError:
+                                        responseMessage = f"Invalid Input: \"{inputValue}\"\nYou have to insert value between 1-9 to toggle note."
+                                    if not responseMessage:
+                                        if 1 <= inputValue <= 9:
+                                            responseMessage = f"Successfully Toggled.\nInsert value between 1-9 to toggle note."
+                                            if inputValue in note_board[index]:
+                                                note.remove_note(note_board, index, inputValue)
+                                            else:
+                                                note.insert_note(note_board, index, inputValue)
+                                        elif inputValue < 1:
+                                            responseMessage = f"Value too small: \"{inputValue}\"\nYou have to insert value between 1-9 to toggle note."
+                                        elif inputValue > 9:
+                                            responseMessage = f"Value too large: \"{inputValue}\"\nYou have to insert value between 1-9 to toggle note."
+
             elif selection == '3': # Clean & Initialize All Notes
                 note.initiate_note_board(board, note_board)
             elif selection == '4': # Save & Exit Editing
+                if all(not notes_in_cell for notes_in_cell in note_board): # completely empty note board
+                    note.initiate_note_board(board, note_board)
                 return 'Menu'
 
-def process_rowcol_input(string):
+def process_rowcol_insert_input(string):
     alphabetFilter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']
     numFilter = list(map(str, range(1, 10)))
     alphabetList = []
@@ -86,8 +138,6 @@ def process_rowcol_input(string):
     spaced = False
     for char in string:
         if spaced == False:
-            #print(f"elif char in numFilter:")
-            #print(f"elif {char} in {numFilter}:")
             if char.upper() in alphabetFilter: # row
                 alphabetList.append(char.upper())
             elif char in numFilter: # col
@@ -126,6 +176,26 @@ def process_row_insertion_input(string):
         return f"List is too short: \"{string}\"\n(List has to be 9 characters long, Example Input: 8..6...1.)", None
     return None, [int(char) for char in string[:9]] # errorMessage, rowToBeInserted
 
+def process_rowcol_input(string):
+    alphabetFilter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']
+    numFilter = list(map(str, range(1, 10)))
+    alphabetList = []
+    numList = []
+    for char in string:
+        if char.upper() in alphabetFilter: # row
+            alphabetList.append(char.upper())
+        elif char in numFilter: # col
+            numList.append(char)
+    if len(alphabetList) != 1: 
+        return f"Invalid Row: \"{string}\"\n(Use A-J only, Example: 2F, 5D)", None
+    if len(numList) != 1: 
+        return f"Invalid Column: \"{string}\"\n(Use 1-9 only, Example: 2F, 5D)", None
+    for alphabet_index in range(9):
+        if alphabetList[0] == alphabetFilter[alphabet_index]:
+            row = alphabet_index
+        col = int(numList[0])-1
+    return None, row*9+col # errorMessage, index
+
 board = [
     8, 0, 0, 6, 0, 0, 0, 1, 0,
     0, 2, 7, 0, 0, 0, 0, 9, 0,
@@ -137,10 +207,3 @@ board = [
     4, 0, 0, 0, 9, 0, 0, 8, 0,
     0, 0, 6, 0, 0, 0, 7, 0, 0,
 ]
-
-
-note_board = [[] for _ in range(81)]
-import note_manager
-note_manager.initiate_note_board(board, note_board)
-main(board, note_board)
-while True: pass

@@ -6,7 +6,7 @@ import modes.solver as solver
 
 mode = 'Menu'
 
-def main(board = [0 for _ in range(81)], note_board = [[] for _ in range(81)]):
+def main(board, note_board):
     global mode
     while True:
         if mode == 'Completion':
