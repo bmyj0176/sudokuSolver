@@ -15,6 +15,13 @@ def remove_note(note_board, index, note): # removes a single note at index
 def clear_cell_notes(note_board, index):
     remove_note(note_board, index, 0)
 
+def initiate_note_board(board, note_board):
+    for index in range(81): # completely fill all non-empty cells with notes
+        if not board[index]: # if 0
+            note_board[index] = list(range(1, 10)) 
+    for index in range(81):
+        cell_scan(board, note_board, index) # cleans up all cells' notes
+
 def cell_scan(board, note_board, index): # checks for cell value, then scans its row, col, subgrid to clean notes
     value_at_index = board[index]
     if value_at_index: # between 1-9 ONLY, deny 0

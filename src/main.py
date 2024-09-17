@@ -1,22 +1,25 @@
-import modes.insertion
-import verification
-import modes.solver as solver_mode
-import modes.completion as completion_mode
-import utilities.read_algorithms as readAlg
+import modes.completion as completion
+import modes.insertion as insertion
+import modes.menu as menu
+import modes.preset as preset
+import modes.solver as solver
 
 mode = 'Menu'
 
 def main(board = [0 for _ in range(81)], note_board = [[] for _ in range(81)]):
     global mode
     while True:
-        if mode == 'Menu':
-            mode = menu.main(board)
-        if mode == 'Insertion': 
-            mode = insertion_mode.main(board, mode)
-        if mode == 'Solver':
-            mode = solver_mode.main(board, note_board, mode)
         if mode == 'Completion':
-            mode = completion_mode.main(board, mode)
+            mode = completion.main(board, note_board)
+        if mode == 'Insertion': 
+            mode = insertion.main(board, note_board)
+        if mode == 'Menu':
+            mode = menu.main(board, note_board)
+        if mode == 'Preset':
+            mode = preset.main(board, note_board)
+        if mode == 'Solver':
+            mode = solver.main(board, note_board)
+
 
 if __name__ == "__main__":
     solved_board = [0 for _ in range(81)]

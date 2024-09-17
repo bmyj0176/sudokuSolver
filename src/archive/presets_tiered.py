@@ -1,5 +1,5 @@
 import main as mainCode
-import interface
+import note_manager as note
 
 ''' Easy ??
 . 3 1 | 6 7 . | 4 . 9 
@@ -151,7 +151,8 @@ extreme_board = [
     0, 0, 6, 0, 0, 0, 7, 0, 0,
 ]
 
+board = extreme_board
 note_board = [[] for _ in range(81)]
+note.initiate_note_board(board, note_board)
 
-# interface.print_board(extreme_board)
-mainCode.main(extreme_board, note_board)
+mainCode.main(board, note_board)
