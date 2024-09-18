@@ -54,10 +54,9 @@ def main(board, note_board):
             presetName = input("Insert New Preset Name: ")
             entry = {"preset": presetName, "board": board, "note_board": note_board}
             write(entry, len(read())+1)
+            page = len(read())
             extraMessage = f"Saved Preset {presetName}"
         elif selection == '8': # Return to Menu
-            print("hi")
-            print(board)
             return "Menu"
         else: 
             extraMessage = "Invalid Selection"

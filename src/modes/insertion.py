@@ -13,7 +13,8 @@ def main(board, note_board):
             print("[1] Switch to Note Board Editing")
             print("[2] Insert Number by Row/Col Index (eg. 2F, 3D)")
             print("[3] Quick Insert by Entire Row (eg. 8..6...1.)")
-            print("[4] Save & Exit Editing")
+            print("[4] Clear Board")
+            print("[5] Save & Exit Editing")
             selection = input("Select: ")
             if selection == '1': # Switch to Note Board Editing
                 noteboardInsertion = not noteboardInsertion
@@ -38,7 +39,8 @@ def main(board, note_board):
                             note.cell_scan(board, note_board, index)
             elif selection == '3': # Quick Insert by Entire Row (eg. 8..6...1.)
                 errorMessage = None
-                for row in range(9):
+                row = 0
+                while row < 9:
                     while True:
                         print()
                         interface.print_board(board, rowPointer=row)
@@ -62,7 +64,19 @@ def main(board, note_board):
                                     board[index] = rowToBeInserted[num]
                                     note.cell_scan(board, note_board, index)
                                 break
-            elif selection == '4': # Save & Exit Editing
+                    row += 1
+            elif selection == '4': # Clear Board
+                while True:
+                    confirmation = input("Are you sure you want to clear your board?\n[Enter] to Proceed, [0] to Return\nSelect: ")
+                    if confirmation == '' or confirmation == ' ':
+                        board.clear()
+                        board.extend([0 for _ in range(81)])
+                        note_board.clear()
+                        note_board.extend([[] for _ in range(81)])
+                        break
+                    elif confirmation == "0":
+                        break
+            elif selection == '5': # Save & Exit Editing
                 if all(not notes_in_cell for notes_in_cell in note_board): # completely empty note board
                     note.initiate_note_board(board, note_board)
                 return 'Menu'
@@ -173,7 +187,8 @@ def process_row_insertion_input(string):
         if string[char_index] in filterList and char_index >= 9:
             return f"List is too long: \"{string}\"\n(List must only be 9 characters long, Example Input: 8..6...1.)", None
     if len(string) <= 8:
-        return f"List is too short: \"{string}\"\n(List has to be 9 characters long, Example Input: 8..6...1.)", None
+        for _ in range(9-len(string)):
+            string.append(0)
     return None, [int(char) for char in string[:9]] # errorMessage, rowToBeInserted
 
 def process_rowcol_input(string):

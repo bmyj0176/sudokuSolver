@@ -4,8 +4,6 @@ import interface
 def main(board, note_board):
     showNoteboard = False
     while True:
-        print("hello")
-        print(board)
         if showNoteboard: interface.print_note_board(board, note_board)
         else:             interface.print_board(board)
         print(f"[1] Solve Board (Solver)")
