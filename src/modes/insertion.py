@@ -1,7 +1,7 @@
 import interface
 import note_manager as note
 import utilities.calculate as calculate
-import utilities.read_algorithms as readAlg
+import utilities.read_algorithms as helper
 
 insertionHistory = []
 
@@ -9,6 +9,7 @@ def main(board, note_board):
     noteboardInsertion = False
     while True:
         if not noteboardInsertion:
+            print()
             interface.print_board(board)
             print("[1] Switch to Note Board Editing")
             print("[2] Insert Number by Row/Col Index (eg. 2F, 3D)")
@@ -49,7 +50,8 @@ def main(board, note_board):
                             errorMessage = None
                         else:
                             print("\n(Example Input: 8..6...1.)")
-                        print("[/] Previous row [Enter] Next row")
+                        print("[/] Previous row")
+                        print("[Enter] Next row")
                         inputString = input("Enter: ")
                         if inputString == '/':
                             row -= 1
@@ -60,7 +62,7 @@ def main(board, note_board):
                             errorMessage, rowToBeInserted = process_row_insertion_input(inputString)
                             if not errorMessage:
                                 for num in range(9):
-                                    index = readAlg.list_row_indexes(row)[num]
+                                    index = helper.list_row_indexes(row)[num]
                                     board[index] = rowToBeInserted[num]
                                     note.cell_scan(board, note_board, index)
                                 break
@@ -81,6 +83,7 @@ def main(board, note_board):
                     note.initiate_note_board(board, note_board)
                 return 'Menu'
         else: # noteboardInsertion
+            print()
             interface.print_note_board(board, note_board)
             print("[1] Switch to Board Editing")
             print("[2] Edit & Toggle Note by Cell")

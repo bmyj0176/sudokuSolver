@@ -7,6 +7,7 @@ def main(board, note_board):
     showNoteboard = False
     extraMessage = None
     while True:
+        print()
         if showNoteboard: interface.print_note_board(read()[page-1]["board"],read()[page-1]["note_board"])
         else:             interface.print_board(read()[page-1]["board"])
         print(f"<{page} / {len(read())}> {read()[page-1]["preset"]}")

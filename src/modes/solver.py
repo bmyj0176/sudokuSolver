@@ -1,5 +1,5 @@
 import note_manager as note
-import solve_algorithms.solve_alg_main as solve
+import algorithms as solve
 import interface
 import utilities.calculate as calculate
 import sys
@@ -52,22 +52,22 @@ def solution_detected(technique, number, index, board, note_board):
     if technique in noteRemovalTechniques: 
         if not skipNotesMode and not quickSolveMode:
             print()
-            interface.print_note_board(note_board, calculate.index_to_row(index), calculate.index_to_col(index))
+            interface.print_note_board(board, note_board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"({technique}) Remove note {number} from this cell. ")
         note.remove_note(note_board, index, number)
         if not skipNotesMode and not quickSolveMode:
             print()
-            interface.print_note_board(note_board, calculate.index_to_row(index), calculate.index_to_col(index))
+            interface.print_note_board(board, note_board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"Your notes should look like this afterwards. ")
     else: # numberInsertionTechniques
         if not quickSolveMode:
             print()
-            interface.print_board_hinted(board, calculate.index_to_row(index), calculate.index_to_col(index))
+            interface.print_board(board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"({technique}) Insert {number} into this cell. Then, remove notes accordingly. ")
         board[index] = number
         note.cell_scan(board, note_board, index)
         if not quickSolveMode:
             print()
-            interface.print_board_hinted(board, calculate.index_to_row(index), calculate.index_to_col(index))
+            interface.print_board(board, calculate.index_to_row(index), calculate.index_to_col(index))
             input(f"Your board should look like this afterwards. ")
     return

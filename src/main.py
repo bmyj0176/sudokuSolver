@@ -11,7 +11,7 @@ def main(board, note_board):
     while True:
         if mode == 'Completion':
             mode = completion.main(board, note_board)
-        if mode == 'Insertion': 
+        if mode == 'Insertion':
             mode = insertion.main(board, note_board)
         if mode == 'Menu':
             mode = menu.main(board, note_board)
@@ -19,7 +19,6 @@ def main(board, note_board):
             mode = preset.main(board, note_board)
         if mode == 'Solver':
             mode = solver.main(board, note_board)
-
 
 if __name__ == "__main__":
     solved_board = [0 for _ in range(81)]
